@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from './app/demo-project/app.module';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { PipesArrayComponent } from './app/pipes-exercice/pipes-array.component';
 import { VideoPlayerComponent } from './app/video-player/video-player.component';
 
 /*
