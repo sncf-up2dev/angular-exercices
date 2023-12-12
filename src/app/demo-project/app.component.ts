@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-type Topic = {
+export type Topic = {
   id: string,
   title: string,
   color: string,
@@ -23,6 +23,6 @@ export class AppComponent {
     { id: 'build', title: 'Build for Production', content: 'ng build', color: 'purple' },
   ]
 
-  selectedTopicIndex?: number
+  selectedTopic: Topic | undefined
 
 }
