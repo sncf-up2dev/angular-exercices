@@ -1,9 +1,6 @@
 import { Component, NgModule, inject } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { Tree } from "./tree.component";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
 import { TreeComponent } from "./tree.component";
+import { Tree } from "./tree";
 
 @Component({
     standalone: true,

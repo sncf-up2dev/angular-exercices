@@ -1,12 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component, HostListener, InjectionToken, Input, OnInit, Pipe, PipeTransform, SkipSelf, inject } from "@angular/core";
-
-export class Tree {
-    constructor(
-        public value: string,
-        public children: Tree[] = []
-    ) { }
-}
+import { Component, Input } from "@angular/core";
+import { Tree } from "./tree";
 
 @Component({
     standalone: true,
@@ -14,10 +8,17 @@ export class Tree {
 
     selector: 'app-tree',
     template: `
-    <div class="border">
-        
-    </div>
+        <div class= "box">
+
+        </div>
     `,
+    styles: `
+        .box {
+            display: block; 
+            border: 5px solid black;
+            margin: 10px;
+        }
+    `
 })
 export class TreeComponent {
 
