@@ -10,6 +10,13 @@ import { Tree } from "./tree";
     template: `
         <div class= "box">
 
+            <!-- 
+                Le composant a créer est un composant récursif :
+                Quelque part dans votre template, le composant va "s'appeler" lui même
+
+                <app-tree [tree]=??? />
+            -->
+
         </div>
     `,
     styles: `
@@ -24,5 +31,10 @@ export class TreeComponent {
 
     @Input({ required: true })
     tree!: Tree
+
+    /*
+        Composant à modifier pour l'exercice
+        Vous pouvez modifier le composant et le template
+    */
 
 }

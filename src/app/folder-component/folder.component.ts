@@ -12,6 +12,13 @@ import { Tree } from "./tree";
 })
 export class FolderComponent {
 
+    /* Composant racine de l'application 
+        Les composants de cet exercice sont standalones (pas de module)
+        Rappel pour bootstrap sur un composant standalone (dans le main.ts) :
+            - bootstrapApplication(FolderComponent).catch((err) => console.error(err));
+    */
+    /* /!\ Ce fichier ne doit pas être modifié pour l'exercice ! */
+
     readonly folder = new Tree(
         "root",
         [

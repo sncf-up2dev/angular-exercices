@@ -11,5 +11,4 @@ platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
 */
 
-bootstrapApplication(FolderComponent)
-  .catch((err) => console.error(err));
+bootstrapApplication(FolderComponent).catch((err) => console.error(err));
