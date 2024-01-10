@@ -6,7 +6,7 @@ import { Tree } from "./tree";
     standalone: true,
     selector: 'app-root',
     template: ` 
-        <app-tree [tree]="folder" />
+        <app-tree [tree]="folder" expanded="true"/>
     `,
     imports: [TreeComponent],
 })
@@ -19,7 +19,7 @@ export class FolderComponent {
     */
     /* /!\ Ce fichier ne doit pas être modifié pour l'exercice ! */
 
-    readonly folder = new Tree(
+    folder = new Tree(
         "root",
         [
             new Tree(
