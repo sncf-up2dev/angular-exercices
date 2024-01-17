@@ -1,7 +1,10 @@
 import { Component } from "@angular/core";
+import { COUNTER_TYPE_TOKEN } from "./services.component";
 
 @Component({
-  providers: [],
+  providers: [
+    { provide: COUNTER_TYPE_TOKEN, useValue: 'normal' },
+  ],
 
   selector: 'app-root',
   template: `
