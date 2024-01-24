@@ -8,8 +8,9 @@ import { FolderComponent } from './app/folder-component/folder.component';
 import { TreeComponent } from './app/folder-component/tree.component';
 import { DependencyInjectionModule } from './app/dependency-injection/dependency-injection.module';
 
-
+/*
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
+*/
 
-//bootstrapApplication(FolderComponent).catch(err => console.error(err));
+bootstrapApplication(FolderComponent).catch(err => console.error(err));

@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, booleanAttribute } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, booleanAttribute, inject } from "@angular/core";
 import { Tree } from "./tree";
+import { FolderComponent } from "./folder.component";
 
 @Component({
     standalone: true,
@@ -10,10 +11,10 @@ import { Tree } from "./tree";
     template: `
         <div class= "box" (click)="onClick($event)">
 
-            {{ tree.value }}
+           {{ completePath }} <button (click)="getName($event)">Bubble Name</button>
 
             <ng-container *ngIf="expanded">
-                <app-tree *ngFor="let child of tree.children" [tree]="child" />
+                <app-tree *ngFor="let child of tree.children" [tree]="child" (clickEvent)="clickEvent.emit($event)" />
             </ng-container>
             <!-- 
                 Le composant a créer est un composant récursif :
@@ -32,7 +33,7 @@ import { Tree } from "./tree";
         }
     `
 })
-export class TreeComponent {
+export class TreeComponent implements OnInit {
 
     @Input({ required: true })
     tree!: Tree
@@ -47,9 +48,30 @@ export class TreeComponent {
     )
     expanded = false
 
-    /*
-        Composant à modifier pour l'exercice
-        Vous pouvez modifier le composant et le template
-    */
+
+    /* Méthode récursive chemin complet */
+    /* ngOnInit est utilisé à la place du constructeur car l'attribur tree n'est pas assigné avant */
+
+    parent = inject(TreeComponent, { optional: true, skipSelf: true })
+
+    completePath!: string
+
+    ngOnInit() {
+        this.completePath = this.parent
+            ? this.parent.completePath + '/' + this.tree.value
+            : this.tree.value
+    }
+
+    /* Propagation d'évènements dans l'arborescence de composants */
+
+    @Output()
+    clickEvent = new EventEmitter<string>()
+
+    getName(event: Event) {
+        event.stopPropagation()
+        this.clickEvent.emit(this.tree.value)
+    }
+
+
 
 }

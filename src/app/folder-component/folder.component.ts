@@ -6,7 +6,8 @@ import { Tree } from "./tree";
     standalone: true,
     selector: 'app-root',
     template: ` 
-        <app-tree [tree]="folder" expanded="true"/>
+        {{ lastClicked }}
+        <app-tree [tree]="folder" expanded="true" (clickEvent)="this.lastClicked = $event"/>
     `,
     imports: [TreeComponent],
 })
@@ -18,6 +19,8 @@ export class FolderComponent {
             - bootstrapApplication(FolderComponent).catch((err) => console.error(err));
     */
     /* /!\ Ce fichier ne doit pas être modifié pour l'exercice ! */
+
+    lastClicked = ''
 
     folder = new Tree(
         "root",
@@ -32,5 +35,9 @@ export class FolderComponent {
             new Tree("readme")
         ]
     )
+
+    constructor() {
+        this.folder.children[1].children = [this.folder]
+    }
 
 }
