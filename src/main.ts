@@ -7,10 +7,11 @@ import { AppComponent } from './app/demo-project/app.component';
 import { FolderComponent } from './app/folder-component/folder.component';
 import { TreeComponent } from './app/folder-component/tree.component';
 import { DependencyInjectionModule } from './app/dependency-injection/dependency-injection.module';
+import { HostComponent } from './app/host/host.component';
 
 /*
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
 
-bootstrapApplication(FolderComponent).catch(err => console.error(err));
+bootstrapApplication(HostComponent).catch(err => console.error(err));
