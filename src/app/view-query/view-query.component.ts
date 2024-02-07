@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   imports: [CommonModule],
   template: `
     <div>
-      <audio #audio controls src="../assets/sample.mp3" ></audio> 
+      <audio #audio src="../assets/sample.mp3" ></audio> 
       <button (click)="audio.paused ? audio.play() : audio.pause()">Play / Pause</button> 
       <ng-container *ngIf="!audio.paused">Playing...</ng-container>
     </div>
@@ -28,20 +28,18 @@ export class ViewQueryComponent {
     "../assets/sample.mp3",
   ]
 
-  playPause(media: HTMLMediaElement) {
-    media.paused
-      ? media.play()
-      : media.pause()
-  }
-
   push() {
     this.urls.push("../assets/sample.mp3")
-    console.log(this.urls)
   }
 
   pop() {
     this.urls.pop()
-    console.log(this.urls)
+  }
+
+  playPause(media: HTMLMediaElement) {
+    media.paused
+      ? media.play()
+      : media.pause()
   }
 
 }
