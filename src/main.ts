@@ -15,4 +15,4 @@ platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
 
-bootstrapApplication(VideoPlayerComponent).catch(err => console.error(err));
+bootstrapApplication(ViewQueryComponent).catch(err => console.error(err));
