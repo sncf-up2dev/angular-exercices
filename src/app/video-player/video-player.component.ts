@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
     standalone: true,
@@ -7,9 +7,9 @@ import { Component } from "@angular/core";
 
     selector: 'app-root',
     template: `
-        <video #video 
-            (wheel)="onWheel($event, video)"
-            (click)="onClick(video)"
+        <video #video
+            (wheel)="onWheel($event)"
+            (click)="onClick()"
             (mousedown)="onMouseDown($event)"
             (mouseup)="onMouseUp($event)"
             (mousemove)="onMouseMove($event)"
@@ -24,19 +24,22 @@ export class VideoPlayerComponent {
     playing: boolean = false
     value: number = 0
 
-    onClick(media: HTMLMediaElement): void {
+    @ViewChild('video')
+    media!: ElementRef<HTMLMediaElement>
+
+    onClick(): void {
 
         // L'évènement click est déclenché lors d'un mouseUp et un mouseDown sur le même élément
         if (!this.isDragged) {
-            media.paused ? media.play() : media.pause()
+            this.media.nativeElement.paused ? this.media.nativeElement.play() : this.media.nativeElement.pause()
         }
     }
 
-    onWheel(event: WheelEvent, media: HTMLMediaElement): void {
+    onWheel(event: WheelEvent): void {
         /* Stoppe le comportement par défaut du WheelEvent (scroll) */
         event.preventDefault()
 
-        media.currentTime += event.deltaY >= 0 ? 1 : -1
+        this.media.nativeElement.currentTime += event.deltaY >= 0 ? 1 : -1
     }
 
     translationX: number = 0

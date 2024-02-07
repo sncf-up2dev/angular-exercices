@@ -5,22 +5,28 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <div class="border" [style.font-size.px]='size' (click)="size = size + 10">
-      Exercice HostComponent
-    </div>
+    Exercice HostComponent
   `,
   styles: `
-    .border {
+    :host {
       display: block;
-
       border: 5px solid black;
       margin-top: 10px;
       margin-bottom: 10px;
+      padding: 10px;
     }
   `,
+  host: {
+    '[style.font-size.px]': 'size',
+    '(click)': 'onClick()'
+  }
 })
 export class HostComponent {
 
   size = 10
+
+  onClick() {
+    this.size += 10
+  }
 
 }

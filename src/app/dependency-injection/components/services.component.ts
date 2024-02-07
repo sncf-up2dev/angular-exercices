@@ -52,21 +52,27 @@ export class ServicesFatherComponent {
 @Component({
   selector: 'app-child',
   template: `
-    <div class="border">
-      <div>ServicesChildComponent : </div> 
-      <div>counter with default : {{counterServiceWithDefault?.value}}</div>
-      <div>second counter : {{secondCounterService.value}}</div>
-      <div>factory Counter : {{factoryCounterService.value}}</div>
-      <button (click)="counterServiceWithDefault?.incrementValue()">Increment 1</button>
-      <button (click)="secondCounterService.incrementValue()">Increment 2</button>
-      <button (click)="factoryCounterService.incrementValue()">Increment 3</button>
-    </div>
+    <div>ServicesChildComponent : </div> 
+    <div>counter with default : {{counterServiceWithDefault?.value}}</div>
+    <div>second counter : {{secondCounterService.value}}</div>
+    <div>factory Counter : {{factoryCounterService.value}}</div>
+    <button (click)="counterServiceWithDefault?.incrementValue()">Increment 1</button>
+    <button (click)="secondCounterService.incrementValue()">Increment 2</button>
+    <button (click)="factoryCounterService.incrementValue()">Increment 3</button>
   `,
-  styleUrls: [],
   providers: [
     { provide: COUNTER_TOKEN, useClass: BetterCounterService },
     { provide: FACTORY_TOKEN, useFactory: counterFactory, deps: [COUNTER_TYPE_TOKEN] }
-  ]
+  ],
+  host: {
+    'class': 'border'
+  },
+  styles: `
+    :host {
+      display: block;
+      padding: 10px;
+    }
+  `
 })
 export class ServicesChildComponent {
 
