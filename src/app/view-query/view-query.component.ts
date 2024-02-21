@@ -17,8 +17,6 @@ import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angu
       <button (click)="pop()">Supprimer piste</button>
     </div>
 
-    <app-child />
-
   `,
   styles: ``
 })
