@@ -306,19 +306,19 @@
 			"id": 1,
 			"title": "json-server",
 			"author": "typicode",
-			"public": "true"
+			"public": true
 		},
 		{
 			"id": 2,
 			"title": "angular",
 			"author": "mv",
-			"public": "true"
+			"public": true
 		},
 		{
 			"id": 3,
 			"title": "secret",
 			"author": "sncf",
-			"public": "false"
+			"public": false
 		}
 	]
 }

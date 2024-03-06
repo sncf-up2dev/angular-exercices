@@ -1,5 +1,5 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { ApplicationConfig, bootstrapApplication } from '@angular/platform-browser';
 import { PipesArrayComponent } from './app/pipes-exercice/pipes-array.component';
 import { VideoPlayerComponent } from './app/video-player/video-player.component';
 import { AppModule } from './app/demo-project/app.module';
@@ -9,10 +9,16 @@ import { TreeComponent } from './app/folder-component/tree.component';
 import { DependencyInjectionModule } from './app/dependency-injection/dependency-injection.module';
 import { HostComponent } from './app/host/host.component';
 import { ViewQueryComponent } from './app/view-query/view-query.component';
+import { MyAsyncComponent } from './app/rxjs/my-async.component';
+import { provideHttpClient } from '@angular/common/http';
+import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
 
 /*
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
-
-bootstrapApplication(ViewQueryComponent).catch(err => console.error(err));
+bootstrapApplication(MyAsyncComponent, {
+  providers: [
+    provideHttpClient()
+  ]
+}).catch(err => console.error(err));

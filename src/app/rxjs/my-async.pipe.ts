@@ -9,9 +9,21 @@ import { Observable, Subscription } from 'rxjs';
 export class MyAsyncPipe<T> implements PipeTransform, OnDestroy {
 
   subscription?: Subscription
+  lastValue: T | null = null
+  obs: Observable<T> | null = null
 
-  transform(value: Observable<T>): T | null {
-    return null;
+  transform(obs: Observable<T>): T | null {
+
+    if (this.obs !== obs) {
+      this.subscription?.unsubscribe()
+      this.lastValue = null
+      this.subscription = obs.subscribe(
+        v => this.lastValue = v
+      )
+      this.obs = obs
+    }
+
+    return this.lastValue
   }
 
   ngOnDestroy(): void {
