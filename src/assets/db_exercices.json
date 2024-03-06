@@ -301,7 +301,7 @@
 			"age": "42"
 		}
 	],
-	"posts": [
+	"articles": [
 		{
 			"id": 1,
 			"title": "json-server",
