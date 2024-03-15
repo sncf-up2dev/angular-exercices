@@ -18,7 +18,10 @@ export class MyAsyncPipe<T> implements PipeTransform, OnDestroy {
       this.subscription?.unsubscribe()
       this.lastValue = null
       this.subscription = obs.subscribe(
-        v => this.lastValue = v
+        v => {
+          console.log("Valeur émise " + v)
+          this.lastValue = v
+        }
       )
       this.obs = obs
     }
@@ -28,6 +31,7 @@ export class MyAsyncPipe<T> implements PipeTransform, OnDestroy {
 
   ngOnDestroy(): void {
     // Gestion du désabonnement
+    console.log("Désabonnement")
     this.subscription?.unsubscribe()
   }
 

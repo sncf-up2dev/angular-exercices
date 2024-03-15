@@ -17,7 +17,7 @@ import { AutocompleteComponent } from './app/autocomplete/autocomplete.component
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
-bootstrapApplication(MyAsyncComponent, {
+bootstrapApplication(AutocompleteComponent, {
   providers: [
     provideHttpClient()
   ]
