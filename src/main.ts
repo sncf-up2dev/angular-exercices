@@ -12,12 +12,13 @@ import { ViewQueryComponent } from './app/view-query/view-query.component';
 import { MyAsyncComponent } from './app/rxjs/my-async.component';
 import { provideHttpClient } from '@angular/common/http';
 import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
+import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
 
 /*
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
-bootstrapApplication(AutocompleteComponent, {
+bootstrapApplication(RxjsOperateursComponent, {
   providers: [
     provideHttpClient()
   ]
