@@ -18,7 +18,7 @@ import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.c
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
-bootstrapApplication(RxjsOperateursComponent, {
+bootstrapApplication(AutocompleteComponent, {
   providers: [
     provideHttpClient()
   ]

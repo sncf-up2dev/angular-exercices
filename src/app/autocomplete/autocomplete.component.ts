@@ -1,13 +1,20 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ClientService } from './client.service';
-import { Subscription, fromEvent } from 'rxjs';
+import { Observable, Subscription, concatAll, fromEvent, map, merge, mergeAll, mergeMap, switchAll, tap } from 'rxjs';
+import { Client } from './client';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   template: `
     <input #input/>
+    <div class="border">
+      <div *ngFor="let client of clients$ | async" class="item">
+        {{ client.firstname }}
+      </div>
+    </div>
   `,
   styles: `
     .item {
@@ -29,28 +36,18 @@ import { Subscription, fromEvent } from 'rxjs';
     }
   `
 })
-export class AutocompleteComponent implements AfterViewInit, OnDestroy {
+export class AutocompleteComponent implements AfterViewInit {
 
   clientService = inject(ClientService)
 
   @ViewChild('input')
   viewInput!: ElementRef<HTMLInputElement>
 
-  subscription?: Subscription
+  clients$?: Observable<Client[]>
 
   ngAfterViewInit(): void {
-    this.subscription = fromEvent(this.viewInput.nativeElement, 'input').subscribe(
-      ev => {
-        let filter = (ev.target as HTMLInputElement).value
-        this.clientService.getFilteredSortedClients(filter).subscribe(
-          console.log
-        )
-      }
+    this.clients$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
+      mergeMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
     )
   }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe()
-  }
-
 }
