@@ -1,6 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ClientService } from './client.service';
-import { Observable, Subscription, concatAll, fromEvent, map, merge, mergeAll, mergeMap, switchAll, tap } from 'rxjs';
+import { NEVER, Observable, Subscription, concatAll, concatMap, debounceTime, delay, distinctUntilChanged, exhaustMap, first, fromEvent, iif, interval, map, merge, mergeAll, mergeMap, of, switchAll, switchMap, tap, throttle } from 'rxjs';
 import { Client } from './client';
 import { CommonModule } from '@angular/common';
 
@@ -11,10 +11,28 @@ import { CommonModule } from '@angular/common';
   template: `
     <input #input/>
     <div class="border">
-      <div *ngFor="let client of clients$ | async" class="item">
-        {{ client.firstname }}
+      <div *ngFor="let client of clientsMerge$ | async" class="item">
+        Merge : {{ client.firstname }}
       </div>
     </div>
+    
+    <!-- <div class="border">
+      <div *ngFor="let client of clientsSwitch$ | async" class="item">
+        Switch {{ client.firstname }}
+      </div>
+    </div>
+
+    <div class="border">
+      <div *ngFor="let client of clientsConcat$ | async" class="item">
+       Concat : {{ client.firstname }}
+      </div>
+    </div>
+
+    <div class="border">
+      <div *ngFor="let client of clientsExhaust$ | async" class="item">
+        Exhaust :{{ client.firstname }}
+      </div>
+    </div> -->
   `,
   styles: `
     .item {
@@ -43,11 +61,33 @@ export class AutocompleteComponent implements AfterViewInit {
   @ViewChild('input')
   viewInput!: ElementRef<HTMLInputElement>
 
-  clients$?: Observable<Client[]>
+  clientsMerge$?: Observable<Client[]>
+
 
   ngAfterViewInit(): void {
-    this.clients$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
-      mergeMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
-    )
+    this.clientsMerge$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
+      debounceTime(2000),
+      distinctUntilChanged(),
+      mergeMap(ev => {
+        const event = (ev.target as HTMLInputElement).value
+        // return iif(() => event.length >= 3, this.clientService.getFilteredSortedClients(event), NEVER)
+        return event.length >= 3 ? this.clientService.getFilteredSortedClients(event) : NEVER
+      }),
+    )  
   }
+
+  /** Test
+    clientsSwitch$?: Observable<Client[]>
+    clientsConcat$?: Observable<Client[]>
+    clientsExhaust$?: Observable<Client[]>
+      this.clientsSwitch$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
+        switchMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
+        )
+      this.clientsConcat$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
+        concatMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
+      )
+      this.clientsExhaust$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
+        exhaustMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
+      )
+  */
 }

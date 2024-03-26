@@ -13,12 +13,13 @@ import { MyAsyncComponent } from './app/rxjs/my-async.component';
 import { provideHttpClient } from '@angular/common/http';
 import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
 import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
+import { ClickCounterComponent } from './app/click/click-counter.component';
 
 /*
 platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
   .catch(err => console.error(err));
 */
-bootstrapApplication(AutocompleteComponent, {
+bootstrapApplication(ClickCounterComponent, {
   providers: [
     provideHttpClient()
   ]
