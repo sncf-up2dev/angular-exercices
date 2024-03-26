@@ -1,6 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ClientService } from './client.service';
-import { NEVER, Observable, Subscription, concatAll, concatMap, debounceTime, delay, distinctUntilChanged, exhaustMap, first, fromEvent, iif, interval, map, merge, mergeAll, mergeMap, of, switchAll, switchMap, tap, throttle } from 'rxjs';
+import { NEVER, Observable, Subscription, concatAll, concatMap, debounceTime, delay, distinctUntilChanged, exhaustMap, filter, first, fromEvent, iif, interval, map, merge, mergeAll, mergeMap, of, switchAll, switchMap, tap, throttle } from 'rxjs';
 import { Client } from './client';
 import { CommonModule } from '@angular/common';
 
@@ -67,13 +67,15 @@ export class AutocompleteComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.clientsMerge$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
       debounceTime(2000),
+      map(ev => (ev.target as HTMLInputElement).value),
+      filter(input => input.length >= 3),
+      tap(console.log),
       distinctUntilChanged(),
-      mergeMap(ev => {
-        const event = (ev.target as HTMLInputElement).value
+      mergeMap(input => {
         // return iif(() => event.length >= 3, this.clientService.getFilteredSortedClients(event), NEVER)
-        return event.length >= 3 ? this.clientService.getFilteredSortedClients(event) : NEVER
+        return this.clientService.getFilteredSortedClients(input)
       }),
-    )  
+    )
   }
 
   /** Test

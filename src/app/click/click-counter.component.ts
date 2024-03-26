@@ -8,9 +8,8 @@ import { Observable, auditTime, debounceTime, delay, fromEvent, interval, last, 
   imports: [CommonModule],
   template: `
       Coucou
-      <button #button (click)="count($event)">
+      <button *ngIf="show" #button (click)="count($event)">
         Click me !
-            
       </button>
 
       <h1>{{ counter$ | async }}</h1>
@@ -18,20 +17,21 @@ import { Observable, auditTime, debounceTime, delay, fromEvent, interval, last, 
   `,
   styles: ``
 })
-export class ClickCounterComponent  {
+export class ClickCounterComponent {
 
-  counter$!: Observable<number>; 
-  inter$!: Observable<any>;
-  
-  
-  
+  counter$!: Observable<number>;
+
+  show = true
+
+  inter$!: Observable<number>;
+
   ngOnInit() {
     this.inter$ = interval(1000).pipe(
       startWith(0),
-      map((x) => x + 1 )
+      map((x) => x + 1)
     )
   }
-  
+
   @ViewChild('button')
   button!: ElementRef<HTMLButtonElement>
 
@@ -39,6 +39,7 @@ export class ClickCounterComponent  {
   // il faut cliquer une fois sur le bouton puis ensuite ailleurs
   // Idée : le stopPropagation() ?
   count(e: MouseEvent) {
+    this.show = false
     e.stopPropagation();
     // this.counter$ = fromEvent(this.button.nativeElement, 'click').pipe(
     this.counter$ = fromEvent(document, 'click').pipe(
@@ -46,8 +47,7 @@ export class ClickCounterComponent  {
       // delay(2000),
       map(_ => 1),
       scan((acc, val) => acc + val),
-      last()
-      )
-      // e.stopPropagation();
+      last(null, 0)
+    )
   }
 }
