@@ -13,13 +13,16 @@ import { MyAsyncComponent } from './app/rxjs/my-async.component';
 import { provideHttpClient } from '@angular/common/http';
 import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
 import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
+import { RxjsAppModule } from './app/rxjs-app/app/rxjs-app.module';
+
+platformBrowserDynamic().bootstrapModule(RxjsAppModule)
+  .catch(err => console.error(err));
 
 /*
-platformBrowserDynamic().bootstrapModule(DependencyInjectionModule)
-  .catch(err => console.error(err));
-*/
 bootstrapApplication(AutocompleteComponent, {
   providers: [
     provideHttpClient()
   ]
 }).catch(err => console.error(err));
+
+*/

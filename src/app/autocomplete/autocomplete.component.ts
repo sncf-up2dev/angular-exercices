@@ -1,6 +1,6 @@
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ClientService } from './client.service';
-import { Observable, Subscription, concatAll, fromEvent, map, merge, mergeAll, mergeMap, switchAll, tap } from 'rxjs';
+import { Observable, Subscription, concatAll, concatMap, debounce, debounceTime, distinctUntilChanged, exhaustMap, filter, fromEvent, map, merge, mergeAll, mergeMap, switchAll, switchMap, tap } from 'rxjs';
 import { Client } from './client';
 import { CommonModule } from '@angular/common';
 
@@ -47,7 +47,11 @@ export class AutocompleteComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.clients$ = fromEvent(this.viewInput.nativeElement, 'input').pipe(
-      mergeMap(ev => this.clientService.getFilteredSortedClients((ev.target as HTMLInputElement).value)),
+      map(ev => (ev.target as HTMLInputElement).value),
+      filter(value => value.length >= 3),
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(value => this.clientService.getFilteredSortedClients(value)),
     )
   }
 }
