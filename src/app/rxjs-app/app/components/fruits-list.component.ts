@@ -5,10 +5,13 @@ import { CartService } from '../../shared/services/cart.service';
 @Component({
   selector: 'app-fruits-list',
   template: `
-    <div *ngFor="let fruit of fruitsService.fruitList">
+    <div *ngFor="let fruit of fruitsService.fruitList | async">
       {{fruit.name}} - {{fruit.price}}€ 
       <button (click)="cartService.addFruit(fruit)">Ajouter</button>
     </div>
+    
+    {{cartService.total$ | async}}
+    
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
