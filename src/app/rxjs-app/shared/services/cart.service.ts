@@ -21,8 +21,8 @@ export class CartService {
             quantity: 10
         } est un objet de type FruitState, qui représente le détail de notre fruit
   */
-  private _cart: BehaviorSubject<Map<number, FruitState>>
-  cart$: Observable<Map<number, FruitState>>
+  private _cart: BehaviorSubject<ReadonlyMap<number, FruitState>>
+  cart$: Observable<FruitState[]>
 
   /* Pour ceux qui veulent aller plus loin :
   - Implémenter un observable total$, qui renvoie le prix total du panier 
@@ -30,11 +30,19 @@ export class CartService {
   total$!: Observable<number>
 
   addFruit(fruit: Fruit) {
-    /* Ajoute un fruit dans le panier
-    /* Deux cas à considerer :
-        - Le fruit n'est pas déja dans le panier
-        - Le fruit est déja dans le panier
-    */
+    const cartStateCopy = new Map(this._cart.getValue())
+
+    const fruitState = cartStateCopy.get(fruit.id)
+
+    if (fruitState === undefined) {
+      // Le fruit n'est pas déja dans le panier
+      cartStateCopy.set(fruit.id, { ...fruit, quantity: 1 })
+    } else {
+      // Le fruit est déja dans le panier
+      cartStateCopy.set(fruitState.id, { ...fruitState, quantity: fruitState.quantity + 1 })
+    }
+
+    this._cart.next(cartStateCopy)
   }
 
   /* /!\ Pour les méthodes addFruit(), removeFruit() et removeAllFruitOfType(), attention à ne pas muter la Map existante */
@@ -45,10 +53,32 @@ export class CartService {
         - Il reste un fruit de ce type dans le panier, enlever l'entrée dans la map
         - Il reste plusieurs fruits de ce type dans le panier, dans ce cas enlever tous les types de fruits 
     */
+    const cartStateCopy = new Map(this._cart.getValue())
+    const fruitState = cartStateCopy.get(fruit.id)
+
+    if (fruitState === undefined)
+      return
+
+    if (fruitState.quantity > 1)
+      cartStateCopy.set(fruitState.id, { ...fruitState, quantity: fruitState.quantity - 1 })
+    else
+      cartStateCopy.delete(fruitState.id)
+
+    this._cart.next(cartStateCopy)
+
   }
 
   removeAllFruitOfType(fruit: Fruit) {
     /* Enlève tous les fruits d'un type dans le panier */
+    const cartStateCopy = new Map(this._cart.getValue())
+    const fruitState = cartStateCopy.get(fruit.id)
+
+    if (fruitState === undefined)
+      return
+
+    cartStateCopy.delete(fruitState.id)
+
+    this._cart.next(cartStateCopy)
   }
 
   /* Ici le constructeur nous donne une valeur par défaut pour le panier, mais il n'est pas indispensable */
@@ -57,8 +87,18 @@ export class CartService {
     defaultMap.set(1, { id: 1, name: "Pomme", price: 1, quantity: 5 })
     defaultMap.set(2, { id: 2, name: "Orange", price: 3, quantity: 10 })
 
-    this._cart = new BehaviorSubject(defaultMap)
-    this.cart$ = this._cart.asObservable()
+    const readonlyMap: ReadonlyMap<number, FruitState> = defaultMap
+
+    this._cart = new BehaviorSubject(readonlyMap)
+    this.cart$ = this._cart.asObservable().pipe(
+      map(cartMap => [...cartMap.values()])
+    )
+
+    this.total$ = this._cart.pipe(
+      map(
+        cartMap => Array.from(cartMap.values()).reduce((acc, val) => val.price * val.quantity + acc, 0)
+      )
+    )
   }
 
 }

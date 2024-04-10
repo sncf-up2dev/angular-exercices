@@ -5,7 +5,7 @@ import { CartService } from '../../shared/services/cart.service';
 @Component({
   selector: 'app-fruits-list',
   template: `
-    <div *ngFor="let fruit of fruitsService.fruitList">
+    <div *ngFor="let fruit of fruitList$ | async">
       {{fruit.name}} - {{fruit.price}}€ 
       <button (click)="cartService.addFruit(fruit)">Ajouter</button>
     </div>
@@ -18,4 +18,5 @@ export class FruitsListComponent {
   fruitsService = inject(FruitService)
   cartService = inject(CartService)
 
+  fruitList$ = this.fruitsService.getFruitList()
 }

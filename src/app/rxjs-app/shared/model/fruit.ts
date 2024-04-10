@@ -1,7 +1,7 @@
 export type Fruit = {
-    readonly id: number
-    readonly name: string
-    readonly price: number
+    id: number
+    name: string
+    price: number
 }
 
-export type FruitState = Fruit & { readonly quantity: number }
+export type FruitState = Fruit & { quantity: number }
