@@ -10,19 +10,24 @@ import { DependencyInjectionModule } from './app/dependency-injection/dependency
 import { HostComponent } from './app/host/host.component';
 import { ViewQueryComponent } from './app/view-query/view-query.component';
 import { MyAsyncComponent } from './app/rxjs/my-async.component';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
 import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
 import { RxjsAppModule } from './app/rxjs-app/app/rxjs-app.module';
-
-platformBrowserDynamic().bootstrapModule(RxjsAppModule)
-  .catch(err => console.error(err));
+import { loggingInterceptorFn } from './app/interceptors/interceptor';
+import { LoggingInterceptor } from './app/interceptors/interceptor.service';
 
 /*
+platformBrowserDynamic().bootstrapModule(RxjsAppModule)
+  .catch(err => console.error(err));
+*/
+
 bootstrapApplication(AutocompleteComponent, {
   providers: [
-    provideHttpClient()
+    provideHttpClient(
+      withInterceptors([
+        loggingInterceptorFn
+      ])
+    )
   ]
 }).catch(err => console.error(err));
-
-*/
