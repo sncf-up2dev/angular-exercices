@@ -1,4 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 })
 export class LoggingService {
 
-  logResponse(response: HttpResponse<any>) {
-    console.log(response)
+  logEvent(event: HttpEvent<any>) {
+    console.log(event)
   }
 
 }
