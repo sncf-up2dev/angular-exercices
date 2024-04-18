@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Client } from './client';
+import { IS_LOGGING_ENABLED } from '../interceptors/context-token';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,10 @@ export class ClientService {
 
     return this._http.get<Client[]>(
       this.CLIENT_URL,
-      { params: params }
+      {
+        params: params,
+        context: new HttpContext().set(IS_LOGGING_ENABLED, false)
+      },
     )
   }
 
