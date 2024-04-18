@@ -10,11 +10,10 @@ export class LoggingInterceptor implements HttpInterceptor {
     /* Squelette de l'exercice pour la version service 
         Pour que l'intercepteur fonctionne, voici les providers à utiliser dans le main.ts
         providers: [
-            provideHttpClient(
-                withInterceptors([
-                    loggingInterceptorFn
-                    ])
-            )
+          { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
+          provideHttpClient(
+            withInterceptorsFromDi()
+          )
         ]
     */
     console.log(req)
