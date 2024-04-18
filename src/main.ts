@@ -15,7 +15,6 @@ import { AutocompleteComponent } from './app/autocomplete/autocomplete.component
 import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
 import { RxjsAppModule } from './app/rxjs-app/app/rxjs-app.module';
 import { loggingInterceptorFn } from './app/interceptors/interceptor';
-import { LoggingInterceptor } from './app/interceptors/interceptor.service';
 
 /*
 platformBrowserDynamic().bootstrapModule(RxjsAppModule)

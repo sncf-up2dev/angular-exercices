@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class LoggingService {
 
-  logEvent(event: HttpEvent<any>) {
+  logEvent(event: HttpEvent<any> | string) {
     console.log(event)
   }
 
