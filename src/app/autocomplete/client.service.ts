@@ -22,7 +22,7 @@ export class ClientService {
       this.CLIENT_URL,
       {
         params: params,
-        context: new HttpContext().set(IS_LOGGING_ENABLED, false)
+        context: new HttpContext().set(IS_LOGGING_ENABLED, true)
       },
     )
   }

@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
         margin: 0px;
         padding: 0px;
         padding-left: 8px;
-      }
+      } 
     .item:hover {
         background: #eee;
       }
