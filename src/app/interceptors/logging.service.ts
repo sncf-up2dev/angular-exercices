@@ -1,12 +1,12 @@
-import { HttpEvent, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoggingService {
 
-  logEvent(event: HttpEvent<any>) {
+  logEvent(event: HttpResponse<any>) {
     console.log(event)
   }
 

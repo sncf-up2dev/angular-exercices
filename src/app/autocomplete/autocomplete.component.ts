@@ -1,8 +1,8 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
-import { ClientService } from './client.service';
-import { Observable, Subscription, concatAll, concatMap, debounce, debounceTime, distinctUntilChanged, exhaustMap, filter, fromEvent, map, merge, mergeAll, mergeMap, switchAll, switchMap, tap } from 'rxjs';
-import { Client } from './client';
-import { CommonModule } from '@angular/common';
+import {AfterViewInit, Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {ClientService} from './client.service';
+import {debounceTime, distinctUntilChanged, filter, fromEvent, map, Observable, switchMap} from 'rxjs';
+import {Client} from './client';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -18,18 +18,21 @@ import { CommonModule } from '@angular/common';
   `,
   styles: `
     .item {
-        margin: 0px;
-        padding: 0px;
-        padding-left: 8px;
-      }
+      margin: 0px;
+      padding: 0px;
+      padding-left: 8px;
+    }
+
     .item:hover {
-        background: #eee;
-      }
+      background: #eee;
+    }
+
     .border {
       width: 500px;
       padding: 0px;
       margin: 0px
     }
+
     input {
       width: 500px;
       margin-bottom: 0px
