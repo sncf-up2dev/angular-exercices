@@ -14,8 +14,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptor
 import { AutocompleteComponent } from './app/autocomplete/autocomplete.component';
 import { RxjsOperateursComponent } from './app/rxjs-operateurs/rxjs-operateurs.component';
 import { RxjsAppModule } from './app/rxjs-app/app/rxjs-app.module';
-import { loggingInterceptorFn } from './app/interceptors/interceptor';
-import { LoggingInterceptor } from './app/interceptors/interceptor.service';
+import { logInterceptorFn } from './app/interceptors/interceptor';
+import { LogInterceptor } from './app/interceptors/interceptor.service';
 
 /*
 platformBrowserDynamic().bootstrapModule(RxjsAppModule)
@@ -24,10 +24,9 @@ platformBrowserDynamic().bootstrapModule(RxjsAppModule)
 
 bootstrapApplication(AutocompleteComponent, {
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LogInterceptor, multi: true },
     provideHttpClient(
-      withInterceptors([
-        loggingInterceptorFn
-      ])
+      withInterceptorsFromDi()
     )
   ]
 }).catch(err => console.error(err));

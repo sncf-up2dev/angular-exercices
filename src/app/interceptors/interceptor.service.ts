@@ -1,22 +1,31 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { LoggingService } from './logging.service';
+import { IS_LOGGING_ENABLED } from './interceptor';
+
+/* Providers à fournir avec la version service
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LogInterceptor, multi: true },
+    provideHttpClient(
+      withInterceptorsFromDi()
+    )
+  ]
+*/
 
 @Injectable()
-export class LoggingInterceptor implements HttpInterceptor {
+export class LogInterceptor implements HttpInterceptor {
+
+  private logService = inject(LoggingService)
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    /* Squelette de l'exercice pour la version service 
-        Pour que l'intercepteur fonctionne, voici les providers à utiliser dans le main.ts
-        providers: [
-          { provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
-          provideHttpClient(
-            withInterceptorsFromDi()
-          )
-        ]
-    */
-    console.log(req)
+    if (req.context.get(IS_LOGGING_ENABLED)) {
+      return next.handle(req).pipe(
+        tap(response => response instanceof HttpResponse ? this.logService.logEvent(response) : 0)
+      )
+    }
+
     return next.handle(req)
   }
 
